@@ -6,7 +6,7 @@ const list = document.querySelector('#results');
 // EVENT LISTENERS
 form.addEventListener('submit', addTodo);
 list.addEventListener('click', items);
-document.addEventListener('DOMContentLoaded', getTodos); 
+document.addEventListener('DOMContentLoaded', getTodos);
 
 
 // FUNCTIONS
@@ -15,7 +15,7 @@ function addTodo(event) {
 
   const newTodo = document.createElement('li');
   const removeBtn = document.createElement('button');
-  removeBtn.innerText = 'Delete';
+  removeBtn.innerHTML = 'Delete';
 
   newTodo.innerText = input.value;
   newTodo.classList.add('todo-item');
@@ -33,6 +33,7 @@ function items(event) {
 
   if (item.tagName === 'BUTTON') {
     const todo = item.parentElement;
+    item.remove();
 
     removeTodos(todo)
     todo.remove();
@@ -60,7 +61,8 @@ function getTodos() {
   // check if there is something there
   if (localStorage.getItem('todos') === null) {
     todos = [];
-  } else {
+  } 
+  else {
     todos = JSON.parse(localStorage.getItem('todos'));
   }
   // RECREATE  to add on page
@@ -68,11 +70,12 @@ function getTodos() {
     const newTodo = document.createElement('li');
     const removeBtn = document.createElement('button');
     removeBtn.innerText = 'Delete';
-  
+    removeBtn.classList.add('removeB')
+
     newTodo.innerText = todo; // get from local storage
     newTodo.classList.add('todo-item');
-    newTodo.appendChild(removeBtn); 
-    list.appendChild(newTodo); 
+    newTodo.appendChild(removeBtn);
+    list.appendChild(newTodo);
   })
 }
 
@@ -84,10 +87,9 @@ function removeTodos(todo) {
   } else {
     todos = JSON.parse(localStorage.getItem('todos'));
   }
-  //console.log(todo); // li
-  const todoIndex = todo.children[0].innerText;
+  console.log(todo.innerHTML); // li
+  const todoIndex = todo.innerHTML;
   //console.log(todos.indexOf('soda'))
   todos.splice(todos.indexOf(todoIndex), 1); // second argument is amount.
   localStorage.setItem('todos', JSON.stringify(todos)); // set back the local storage.
 }
-// doesn't work, deletes last item on list.
